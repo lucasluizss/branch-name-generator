@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Branch Name Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #4A5568;
+      color: #F7FAFC;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 10px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col justify-between">
+
+  <main class="flex-grow container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Branch Name Generator</h1>
+
+    <form id="branchForm" class="space-y-4">
+      <div class="flex items-center space-x-2">
+        <label for="type" class="block text-lg font-medium">Feature based:</label>
+        <div class="tooltip">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12.34a9 9 0 11-9-9v0a9 9 0 019 9z" />
+          </svg>
+          <span class="tooltiptext">Select the type of branch:<br>
+            - feature: New features<br>
+            - bugfix: Bug fixes<br>
+            - testsuite: Test-related<br>
+            - style: Styling changes<br>
+            - refactor: Code refactoring<br>
+            - doc: Documentation<br>
+            - none: No specific type
+          </span>
+        </div>
+        <select id="type" name="type" required
+          class="block w-full bg-gray-800 text-gray-200 border border-gray-600 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500 focus:border-blue-500">
+          <option value="none">none</option>
+          <option value="feature">feature</option>
+          <option value="bugfix">bugfix</option>
+          <option value="testsuite">testsuite</option>
+          <option value="style">style</option>
+          <option value="refactor">refactor</option>
+          <option value="doc">doc</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="description" class="block text-lg font-medium">Task Description:</label>
+        <input type="text" id="description" name="description" required
+          class="block w-full bg-gray-800 text-gray-200 border border-gray-600 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Enter task number and description">
+      </div>
+
+      <div class="space-y-2">
+        <button type="submit"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm">Generate Branch Name</button>
+
+        <div class="relative">
+          <input type="text" id="output" readonly
+            class="block w-full bg-gray-800 text-gray-200 border border-gray-600 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Branch name will appear here">
+          <button type="button" id="copyButton"
+            class="absolute end-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 inline-flex items-center justify-center">
+            <span id="default-icon">
+              <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                viewBox="0 0 18 20">
+                <path
+                  d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z" />
+              </svg>
+            </span>
+            <span id="success-icon" class="hidden inline-flex items-center">
+              <svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 16 12">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M1 5.917 5.724 10.5 15 1.5" />
+              </svg>
+            </span>
+          </button>
+          <div id="tooltip-copy-output" role="tooltip"
+            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            <span id="default-tooltip-message">Copy to clipboard</span>
+            <span id="success-tooltip-message" class="hidden">Copied!</span>
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <footer class="bg-gray-800 text-gray-400 text-center py-4">
+    <p>Dev info: { name: 'Lucas' }</p>
+  </footer>
+
+  <script>
+    document.getElementById('branchForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const type = document.getElementById('type').value;
+      const description = document.getElementById('description').value.trim().replace(/\s+/g, '-');
+
+      const branchName = type === 'none' ? description : `${type}/${description}`;
+      document.getElementById('output').value = branchName;
+    });
+
+    document.getElementById('copyButton').addEventListener('click', function () {
+      const output = document.getElementById('output');
+      output.select();
+      output.setSelectionRange(0, 99999); // For mobile devices
+      document.execCommand('copy');
+
+      // Tooltip display logic
+      const tooltip = document.getElementById('tooltip-copy-output');
+      tooltip.classList.remove('invisible', 'opacity-0');
+      setTimeout(() => {
+        tooltip.classList.add('invisible', 'opacity-0');
+      }, 2000);
+    });
+  </script>
+</body>
+
+</html>
